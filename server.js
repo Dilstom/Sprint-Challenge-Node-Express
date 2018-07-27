@@ -108,13 +108,14 @@ server.get('/actions/:id', (req, res) => {
 })
 
 server.post('/actions', (req, res) => {
-    const { description, project_id} = req.body;
+    const { description, project_id,  notes, completed } = req.body;
+    const info = { description, project_id,  notes, completed }
     if(!project_id || !description){
         res.status(400).json({ error: 'Please provide action project_id and description.' })
     }
-    actions.insert({ description, project_id })
-        .then(a => {
-        res.status(201).json(a);
+    actions.insert(info)
+        .then(action => {
+        res.status(201).json(action);
     })
     .catch(err => {
         res.status(500).json({ error: 'There was an error while saving the action to the database.' })
