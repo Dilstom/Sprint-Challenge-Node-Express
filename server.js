@@ -65,9 +65,22 @@ server.delete('/projects/:id', (req, res) => {
         if(!p) {
             res.status(404).json({ error: 'The project with the specified ID does not exist.' })
         }
-        res.status(200).json(u);
+        res.status(200).json(p);
     })
     .catch(err => {
         res.status(500).json({ error: 'The project could not be removed.' })
+    })
+})
+server.put('/projects/:id', (req, res) => {
+    const { id } = req.params;
+    const { name, description } = req.body;
+    projects.update( id, { name, description }).then(p => {
+        if(!name || !description){
+            res.status(400).json({ error: 'Please provide project name and description' })
+        } else if (!p) {
+            res.status(404).json({ error: 'The project with specified ID does not exist'})
+        } else {
+            res.status(200).json(p);
+        }
     })
 })
