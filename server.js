@@ -59,3 +59,15 @@ server.post('/projects', (req, res) => {
         res.status(500).json({ error: 'There was an error while saving the project to the database.' })
     })
 })
+server.delete('/projects/:id', (req, res) => {
+    const { id } = req.params;
+    projects.remove(id).then(p => {
+        if(!p) {
+            res.status(404).json({ error: 'The project with the specified ID does not exist.' })
+        }
+        res.status(200).json(u);
+    })
+    .catch(err => {
+        res.status(500).json({ error: 'The project could not be removed.' })
+    })
+})
