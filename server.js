@@ -84,3 +84,64 @@ server.put('/projects/:id', (req, res) => {
         }
     })
 })
+// ************ Actions *************
+
+server.get('/actions', (req, res) => {
+    actions.get().then(a => {
+        res.status(200).json(a)
+    })
+    .catch(err => {
+        res.status(500).json({ error: 'The actions information could not be retrieved' })
+    })
+})
+server.get('/actions/:id', (req, res) => {
+    const { id } = req.params;
+    actions.get(id).then(a => {
+        if(a.length === 0){ // <--- need to fix
+            res.status(404).json({ error: 'The action with specified ID does not exist' })
+        }
+        res.status(200).json(a)
+    })
+    .catch(err => {
+        res.status(500).json({ error: 'The actions information could not be retrieved' })
+    })
+})
+
+server.post('/actions', (req, res) => {
+    const { description, project_id} = req.body;
+    if(!project_id || !description){
+        res.status(400).json({ error: 'Please provide action project_id and description.' })
+    }
+    actions.insert({ description, project_id })
+        .then(a => {
+        res.status(201).json(a);
+    })
+    .catch(err => {
+        res.status(500).json({ error: 'There was an error while saving the action to the database.' })
+    })
+})
+server.delete('/actions/:id', (req, res) => {
+    const { id } = req.params;
+    actions.remove(id).then(a => {
+        if(!a) {
+            res.status(404).json({ error: 'The action with the specified ID does not exist.' })
+        }
+        res.status(200).json(a);
+    })
+    .catch(err => {
+        res.status(500).json({ error: 'The action could not be removed.' })
+    })
+})
+server.put('/actions/:id', (req, res) => {
+    const { id } = req.params;
+    const { project_id, description } = req.body;
+    actions.update( id, { project_id, description }).then(a => {
+        if(!project_id || !description){
+            res.status(400).json({ error: 'Please provide action name and description' })
+        } else if (!a) {
+            res.status(404).json({ error: 'The action with specified ID does not exist'})
+        } else {
+            res.status(200).json(a);
+        }
+    })
+})
