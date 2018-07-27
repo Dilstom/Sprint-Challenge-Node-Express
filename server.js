@@ -2,12 +2,14 @@ const express = require('express');
 const helmet = require('helmet');
 const projects = require('./data/helpers/projectModel');
 const actions = require('./data/helpers/actionModel');
+const cors = require('cors');
 
 const port = 8001;
 const server = express();
 
 server.use(helmet());
 server.use(express.json());
+server.use(cors({ origin: "http://localhost:3002" }))
 
 server.listen(port, () => console.log(`Server is listening port ${port}`));
 
