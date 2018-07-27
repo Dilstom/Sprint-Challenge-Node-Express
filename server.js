@@ -47,3 +47,15 @@ server.get('/projects/:id/actions', (req, res) => {
         res.status(500).json({ error: 'The projects information could not be retrieved' })
     })
 })
+server.post('/projects', (req, res) => {
+    const { name, description } = req.body;
+    if(!name || !description){
+        res.status(400).json({ error: 'Please provide project name and description.' })
+    }
+    projects.insert({ name, description }).then(p => {
+        res.status(201).json(p)
+    })
+    .catch(err => {
+        res.status(500).json({ error: 'There was an error while saving the project to the database.' })
+    })
+})
