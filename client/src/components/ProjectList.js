@@ -15,7 +15,7 @@ export default class ProjectList extends Component {
         axios.get("http://localhost:8001/projects")
         .then(res => {
             console.log(res.data)
-          this.setState({ projetcs: res.data })
+          this.setState({ projects: res.data })
         })
         .catch(err => console.log(err))
       }
