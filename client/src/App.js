@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import { Route, Switch } from 'react-router-dom';
 import ProjectList from './components/ProjectList';
+import ActionList from './components/ActionList';
+import ProjectDetail from './components/ProjectDetail';
 
 class App extends Component {
   render() {
@@ -14,7 +16,9 @@ class App extends Component {
         </header>
         <div className="App-intro">
          <Switch>
-           <Route exact path='/' component={ ProjectList } />
+           <Route exact path='/projects' component={ ProjectList } />
+           <Route exact path='/projects/:id' component={ ProjectDetail } />
+           <Route path='/actions' component={ ActionList } />
         </Switch>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-// import { Route, Link, Switch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import ProjectDetail from './ProjectDetail';
 
 
 export default class ProjectList extends Component {
@@ -24,10 +25,10 @@ export default class ProjectList extends Component {
         return (
             <div>
                 {this.state.projects.map(p => (
-                <div key={p.id}> 
+                <Link to={`/projects/${p.id}`} key={p.id} params = {p}> 
                   <p>{p.name}</p>
                   <p>{p.description}</p>
-                </div>
+                </Link>
               ))}  
             </div>
         );
